@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<title>xLauncher</title>
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' https: data:; style-src 'self'; script-src 'self'; font-src 'self'">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="splash" class="splash">
+  <img class="sp-logo" src="icon.png" alt="">
+  <div class="sp-title">xLauncher</div>
+  <div class="sp-bar"><i id="spFill"></i></div>
+  <small id="spMsg">Start...</small>
+</div>
+
+<header class="bar">
+  <div class="drag"><img class="logo" src="icon.png" alt=""><span class="brand">xLauncher</span><span class="ver">1.0</span></div>
+  <button id="min" aria-label="Minimalizuj">–</button><button id="close" class="x" aria-label="Zamknij">✕</button>
+</header>
+
+<div class="col">
+  <nav class="topnav">
+    <div class="tabs">
+      <button data-tab="home" class="on"><img src="img/ic-home.png" alt=""><span>Start</span></button>
+      <button data-tab="profiles"><img src="img/ic-profiles.png" alt=""><span>Profile</span></button>
+      <button data-tab="mods"><img src="img/ic-mods.png" alt=""><span>Mody</span></button>
+      <button data-tab="wardrobe" class="soon" data-tip="Wkrotce"><img src="img/ic-wardrobe.png" alt=""><span>Garderoba</span></button>
+      <button data-tab="servers" class="soon" data-tip="Wkrotce"><img src="img/ic-servers.png" alt=""><span>Serwery</span></button>
+      <button data-tab="console"><img src="img/ic-console.png" alt=""><span>Konsola</span></button>
+    </div>
+    <div class="navright">
+      <button id="acctBtn" class="acct" title="Konto"><b id="whoNick">Gracz</b><small id="acctType">tryb offline</small></button>
+      <button id="openSettings" class="iconbtn"><img src="img/ic-settings.png" alt=""><span>Ustawienia</span></button>
+    </div>
+  </nav>
+
+  <main>
+    <section id="home" class="tab on">
+      <div class="hero">
+        <div class="hero-txt">
+          <span class="kicker">Witaj w xLauncher</span>
+          <h1>Gotowy na gre?</h1>
+          <p class="sub"><span>Profil:</span> <b id="bigPlayName">—</b></p>
+          <button class="play big" id="bigPlay"><img class="ic" src="img/ic-play.png" alt=""><span>GRAJ</span></button>
+          <div class="hstats">
+            <div><small>Czas gry</small><b id="tTime">0 s</b></div>
+            <div><small>Profili</small><b id="tProf">0</b></div>
+            <div><small>Ostatnio</small><b id="tLast">—</b></div>
+          </div>
+        </div>
+        <div class="hero-skin"><img id="body" alt=""></div>
+      </div>
+
+      <div class="hd"><h3>Hotbar</h3><small class="dim">Kliknij slot, aby go wybrac, potem GRAJ</small></div>
+      <div class="hotbar" id="hotbar"></div>
+
+      <div class="grid3">
+        <div class="panel">
+          <div class="hd"><h3>Ostatnio grane</h3><button class="link" data-go="profiles">Wszystkie →</button></div>
+          <div id="lastList"></div>
+        </div>
+        <div id="newsBox" class="panel">
+          <div class="hd"><h3>Wiesci</h3></div>
+          <div id="newsList"></div>
+        </div>
+        <div id="srvBox" class="panel">
+          <div class="hd"><h3>Serwery</h3><span class="link">Wkrotce</span></div>
+          <div id="srvPreview"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="profiles" class="tab">
+      <div class="pagehead">
+        <div><h2>Profile</h2><p>Kazdy profil to osobna instancja: wersja, silnik (Fabric, Forge lub Vanilla), mody, resource packi, swiaty i ustawienia.</p></div>
+        <button class="btn" id="newProf">+ Nowy profil</button>
+      </div>
+      <div class="bar2">
+        <div class="filters"><button data-f="all" class="on">Wszystkie <i id="cAll">0</i></button><button data-f="pinned">Przypiete <i id="cPin">0</i></button></div>
+        <input id="pSearch" class="search" placeholder="Szukaj profili...">
+      </div>
+      <div class="grp">Profile (<span id="cGrp">0</span>)</div>
+      <div id="profGrid" class="pgrid"></div>
+    </section>
+
+    <section id="mods" class="tab">
+      <div class="pagehead">
+        <div><h2>Mody</h2><p id="modsInfo"></p></div>
+      </div>
+      <div class="bar2">
+        <div class="seg" id="mKind"><button data-k="mods" class="on">Mody</button><button data-k="resourcepacks">Resource packi</button><button data-k="shaderpacks">Shadery</button></div>
+        <select id="mProf"></select>
+      </div>
+      <div class="split">
+        <div class="pane">
+          <div class="hd"><h3>W tym profilu</h3><button class="link" id="openMods">Otworz folder</button></div>
+          <div id="drop" class="drop">Przeciagnij pliki tutaj lub <button class="link" id="addMods">wybierz z dysku</button></div>
+          <div id="modList"></div>
+        </div>
+        <div class="pane">
+          <div class="hd"><h3 id="resTitle">Popularne</h3></div>
+          <input id="mSearch" class="search" placeholder="Szukaj na Modrinth...">
+          <div id="resList"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="wardrobe" class="tab">
+      <div class="pagehead">
+        <div><h2>Garderoba</h2><p>Kosmetyki pojawia sie w kolejnych wersjach launchera.</p></div>
+        <span class="pill">Wkrotce</span>
+      </div>
+      <div class="wlayout">
+        <div class="wpreview">
+          <img src="img/ic-wardrobe.png" alt="">
+          <b>Podglad postaci</b>
+          <small>Tu pojawi sie skin z zalozonymi przedmiotami.</small>
+        </div>
+        <div class="cgrid" id="cgrid"></div>
+      </div>
+    </section>
+
+    <section id="servers" class="tab">
+      <div class="pagehead">
+        <div><h2>Serwery partnerskie</h2><p>Dolaczenie uruchamia ostatnio grany profil z wybranym serwerem.</p></div>
+        <input id="srvSearch" class="search srch" placeholder="Szukaj serwerow...">
+      </div>
+      <div id="srvGrid" class="sgrid"></div>
+    </section>
+
+    <section id="console" class="tab">
+      <div class="pagehead">
+        <div><h2>Konsola</h2><p>Log gry na zywo. Mozesz go skopiowac albo wyczyscic.</p></div>
+        <div class="row"><button class="btn alt" id="copyLog">Kopiuj</button><button class="btn alt" id="clearLog">Wyczysc</button></div>
+      </div>
+      <pre id="con">Tu pojawia sie logi gry.</pre>
+    </section>
+  </main>
+
+  <footer class="prog"><span id="status">Gotowy.</span><div class="pbar"><i id="fill"></i></div></footer>
+</div>
+
+<dialog id="loginDlg">
+  <h2>Konto</h2>
+  <p class="muted">Wybierz, jak chcesz grac.</p>
+  <button class="btn wide big2" id="loginMs">Zaloguj kontem Microsoft</button>
+  <p class="muted small">Wymagana jest kupiona gra Minecraft Java Edition.</p>
+  <label for="loginNick">Gra offline (nick)</label>
+  <input id="loginNick" maxlength="16">
+  <div class="row">
+    <button class="btn alt wide" id="loginOff">Graj offline</button>
+    <button class="btn alt" id="loginOut">Wyloguj</button>
+    <button class="btn alt" id="loginClose">Zamknij</button>
+  </div>
+  <p class="err" id="loginErr"></p>
+</dialog>
+
+<dialog id="setDlg">
+  <div class="sdlgHead"><h2>Ustawienia xLauncher</h2><button class="gbtn" id="sX" aria-label="Zamknij">✕</button></div>
+  <div class="sdlgBody">
+    <nav class="snav">
+      <h4>Launcher</h4>
+      <button data-c="gen" class="on">Ogolne</button><button data-c="app">Wyglad</button><button data-c="perf">Wydajnosc</button>
+      <h4>Gra</h4>
+      <button data-c="java">Java i pamiec</button><button data-c="win">Okno gry</button>
+      <h4>Informacje</h4>
+      <button data-c="about">O programie</button><button data-c="legal">Dane i prawne</button>
+      <h4>Zaawansowane</h4>
+      <button data-c="danger" class="red">Strefa zagrozenia</button>
+    </nav>
+    <div class="scont">
+      <section class="sc on" id="c-gen"><h3>Ogolne</h3>
+        <div class="trow"><span>Konto: <b id="acctName">brak</b></span><button class="btn alt sm" id="acctChange">Zmien</button></div>
+        <label for="s-nick">Nick (gra offline)</label><input id="s-nick" maxlength="16">
+        <label for="s-lang">Jezyk</label><select id="s-lang"><option value="pl">Polski</option></select>
+        <div class="trow"><span>Otworz launcher przy starcie systemu</span><span class="sw"><input type="checkbox" id="s-startup"><i></i></span></div>
+        <div class="trow"><span>Discord RPC (status w Discordzie)</span><span class="sw"><input type="checkbox" id="s-discord"><i></i></span></div>
+        <div class="trow"><span>Wysylaj raporty bledow</span><span class="sw"><input type="checkbox" id="s-errors"><i></i></span></div>
+      </section>
+      <section class="sc" id="c-app"><h3>Wyglad</h3>
+        <label for="s-uiScale">Skala interfejsu <output data-for="s-uiScale"></output></label><input type="range" id="s-uiScale" min="80" max="130" step="5">
+        <div class="trow"><span>Animacje</span><span class="sw"><input type="checkbox" id="s-anim"><i></i></span></div>
+        <div class="trow"><span>Pokazuj wiesci na stronie glownej</span><span class="sw"><input type="checkbox" id="s-showNews"><i></i></span></div>
+        <div class="trow"><span>Pokazuj serwery partnerskie na stronie glownej</span><span class="sw"><input type="checkbox" id="s-showSrv"><i></i></span></div>
+      </section>
+      <section class="sc" id="c-perf"><h3>Wydajnosc</h3>
+        <label for="s-gfx">Renderowanie grafiki</label><select id="s-gfx"><option value="0">Szybka</option><option value="1">Ladna</option><option value="2">Fabulous</option></select>
+        <label for="s-entDist">Odleglosc renderowania graczy i mobow <output data-for="s-entDist"></output></label><input type="range" id="s-entDist" min="0.5" max="5" step="0.5">
+        <label for="s-maxFps">Limit FPS <output data-for="s-maxFps"></output></label><input type="range" id="s-maxFps" min="30" max="260" step="10">
+        <div class="trow"><span>Ogranicz FPS, gdy gra jest w tle (natywna opcja Minecrafta)</span><span class="sw"><input type="checkbox" id="s-bgFps"><i></i></span></div>
+      </section>
+      <section class="sc" id="c-java"><h3>Java i pamiec</h3>
+        <label for="s-ramMin">Pamiec minimalna <output data-for="s-ramMin"></output></label><input type="range" id="s-ramMin" min="1" max="16" step="1">
+        <label for="s-ramMax">Pamiec maksymalna <output data-for="s-ramMax"></output></label><input type="range" id="s-ramMax" min="1" max="32" step="1">
+        <label for="s-javaPath">Sciezka do Javy (puste = systemowa)</label>
+        <div class="row"><input id="s-javaPath" placeholder="C:\Program Files\Java\jdk-21\bin\javaw.exe"><button class="btn alt" id="pickJava">Wybierz</button></div>
+        <label for="s-jvmArgs">Argumenty JVM</label><input id="s-jvmArgs" placeholder="-XX:+UseG1GC">
+      </section>
+      <section class="sc" id="c-win"><h3>Okno gry</h3>
+        <div class="trow"><span>Pelny ekran</span><span class="sw"><input type="checkbox" id="s-fullscreen"><i></i></span></div>
+        <div class="row mt"><div><label for="s-resW">Szerokosc</label><input id="s-resW" type="number" min="640"></div><div><label for="s-resH">Wysokosc</label><input id="s-resH" type="number" min="480"></div></div>
+        <div class="trow"><span>Minimalizuj launcher po starcie gry</span><span class="sw"><input type="checkbox" id="s-minimize"><i></i></span></div>
+      </section>
+      <section class="sc" id="c-about"><h3>O programie</h3>
+        <p class="muted"><b>xLauncher 1.0</b><br>Launcher Minecrafta: profile Fabric, Forge i Vanilla, mody z Modrinth, konto Microsoft lub offline.</p>
+        <p class="muted">Electron 33 · minecraft-launcher-core 3 · msmc · discord-rpc</p>
+      </section>
+      <section class="sc" id="c-legal"><h3>Dane i prawne</h3>
+        <p class="muted">Profile, mody i ustawienia zapisuja sie lokalnie. Token konta jest szyfrowany systemowym magazynem.</p>
+        <div class="row"><button class="btn alt" id="openData">Otworz folder danych</button></div>
+        <p class="muted">Launcher nie jest powiazany z Mojang ani Microsoft. Minecraft jest ich znakiem towarowym.</p>
+      </section>
+      <section class="sc" id="c-danger"><h3 class="red">Strefa zagrozenia</h3>
+        <p class="muted">Przywraca domyslne ustawienia launchera. Profile, mody i konto zostaja.</p>
+        <button class="btn danger" id="resetSet">Przywroc domyslne ustawienia</button>
+      </section>
+    </div>
+  </div>
+  <div class="sdlgFoot"><span id="saved"></span><button class="btn alt" id="sClose">Zamknij</button><button class="btn" id="save">Zapisz</button></div>
+</dialog>
+
+<dialog id="dlg">
+  <h3 id="dlgT">Profil</h3>
+  <label for="pName">Nazwa</label><input id="pName" maxlength="32">
+  <label for="pVer">Wersja Minecrafta</label><select id="pVer"></select>
+  <label for="pLoader">Silnik</label>
+  <select id="pLoader"><option value="fabric">Fabric (mody)</option><option value="forge">Forge (mody)</option><option value="vanilla">Vanilla</option></select>
+  <div class="row"><button class="btn" id="pSave">Zapisz</button><button class="btn alt" id="pCancel">Anuluj</button><button class="btn alt danger" id="pDel">Usun</button></div>
+</dialog>
+<script src="app.js"></script>
+</body>
+</html>

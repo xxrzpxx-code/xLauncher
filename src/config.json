@@ -1,0 +1,4 @@
+{
+  "discordClientId": "",
+  "_info": "Wpisz tutaj ID aplikacji z https://discord.com/developers (New Application). Bez tego Discord RPC nie wlaczy sie."
+}

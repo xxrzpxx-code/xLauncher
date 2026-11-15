@@ -1,0 +1,20 @@
+[
+  {
+    "name": "Serwer 1",
+    "ip": "przyklad1.pl",
+    "port": 25565,
+    "bg": "linear-gradient(90deg,rgba(0,0,0,.92),rgba(140,0,0,.45))"
+  },
+  {
+    "name": "Serwer 2",
+    "ip": "przyklad2.pl",
+    "port": 25565,
+    "bg": "linear-gradient(90deg,rgba(0,0,0,.92),rgba(200,28,28,.4))"
+  },
+  {
+    "name": "Serwer 3",
+    "ip": "przyklad3.pl",
+    "port": 25565,
+    "bg": "linear-gradient(90deg,rgba(0,0,0,.9),rgba(90,0,0,.6))"
+  }
+]
